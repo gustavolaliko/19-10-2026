@@ -1,0 +1,728 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Aprenda criptografia com a Cifra de César em uma aplicação interativa.">
+  <title>Criptografia | Cifra de César</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 24px;
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      line-height: 1.6;
+    }
+
+    main {
+      max-width: 850px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      padding: 24px 0;
+    }
+
+    header h1 {
+      color: #38bdf8;
+      margin-bottom: 8px;
+    }
+
+    .card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      color: #7dd3fc;
+      margin-top: 0;
+    }
+
+    .formula {
+      background: #0f172a;
+      border-radius: 8px;
+      padding: 14px;
+      text-align: center;
+      font-size: 1.15rem;
+      color: #facc15;
+      overflow-wrap: anywhere;
+    }
+
+    label {
+      display: block;
+      margin: 16px 0 8px;
+      font-weight: bold;
+    }
+
+    textarea,
+    input,
+    select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #475569;
+      border-radius: 8px;
+      background: #0f172a;
+      color: #f8fafc;
+      font: inherit;
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus,
+    button:focus-visible {
+      outline: 2px solid #38bdf8;
+      outline-offset: 2px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    button {
+      flex: 1;
+      min-width: 140px;
+      padding: 12px 18px;
+      border: none;
+      border-radius: 8px;
+      background: #0284c7;
+      color: white;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0369a1;
+    }
+
+    button.secondary {
+      background: #475569;
+    }
+
+    button.secondary:hover {
+      background: #64748b;
+    }
+
+    #resultado {
+      min-height: 70px;
+      overflow-wrap: anywhere;
+      white-space: pre-wrap;
+      color: #86efac;
+      font-size: 1.05rem;
+    }
+
+    .hint {
+      color: #94a3b8;
+      font-size: 0.9rem;
+    }
+
+    footer {
+      text-align: center;
+      color: #94a3b8;
+      padding: 12px;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 500px) {
+      body {
+        padding: 14px;
+      }
+
+      .card {
+        padding: 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <header>
+      <h1>🔐 Introdução à Criptografia</h1>
+      <p>Descubra como funciona a Cifra de César!</p>
+    </header>
+
+    <section class="card">
+      <h2>1. O que é criptografia?</h2>
+      <p>
+        Criptografia é uma técnica utilizada para transformar informações
+        legíveis em uma forma que dificulta sua compreensão por pessoas
+        não autorizadas. Ela é importante para proteger dados e comunicações.
+      </p>
+
+      <h2>2. Como funciona a Cifra de César?</h2>
+      <p>
+        A Cifra de César é um método clássico de substituição de letras.
+        Cada letra é deslocada uma quantidade fixa de posições no alfabeto.
+        Por exemplo, com deslocamento 3, a letra A se transforma em D,
+        B se transforma em E e X se transforma em A.
+      </p>
+
+      <div class="formula">
+        E(x) = (x + k) mod 26
+      </div>
+
+      <p>
+        Nessa fórmula, <strong>x</strong> representa a posição da letra
+        no alfabeto e <strong>k</strong> representa o deslocamento.
+        O operador módulo 26 faz com que o alfabeto recomece após a letra Z.
+      </p>
+
+      <p class="hint">
+        Atenção: a Cifra de César é um exemplo didático e não deve ser
+        utilizada para proteger informações confidenciais reais.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>3. Experimente a cifra</h2>
+      <p>
+        Digite uma mensagem, escolha o deslocamento e observe o resultado.
+        Você pode criptografar ou descriptografar o texto.
+      </p>
+
+      <label for="mensagem">Mensagem:</label>
+      <textarea
+        id="mensagem"
+        placeholder="Ex.: Olá, Mundo!"
+      >Olá, Mundo!</textarea>
+
+      <label for="deslocamento">Deslocamento (0 a 25):</label>
+      <input
+        id="deslocamento"
+        type="number"
+        min="0"
+        max="25"
+        step="1"
+        value="3"
+      >
+
+      <label for="operacao">Operação:</label>
+      <select id="operacao">
+        <option value="criptografar">Criptografar</option>
+        <option value="descriptografar">Descriptografar</option>
+      </select>
+
+      <div class="actions">
+        <button id="executar" type="button">Transformar mensagem</button>
+        <button id="limpar" class="secondary" type="button">Limpar</button>
+      </div>
+
+      <label for="resultado">Resultado:</label>
+      <div
+        id="resultado"
+        class="formula"
+        role="status"
+        aria-live="polite"
+      >O resultado aparecerá aqui.</div>
+
+      <button id="copiar" class="secondary" type="button"
+        style="width:100%; margin-top:12px;">
+        Copiar resultado
+      </button>
+
+      <p class="hint">
+        Letras maiúsculas e minúsculas são preservadas. Espaços, números,
+        acentos e sinais de pontuação não são deslocados.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>4. Desafio prático</h2>
+      <p>
+        Criptografe a palavra <strong>SEGURANCA</strong> usando deslocamento 3.
+        Depois, selecione a opção “Descriptografar” e confira se consegue
+        recuperar a mensagem original.
+      </p>
+      <p>
+        <strong>Questão:</strong> por que a Cifra de César não é considerada
+        segura para proteger senhas e dados bancários atualmente?
+      </p>
+    </section>
+
+    <footer>
+      Atividade prática de Segurança da Informação · Cifra de César
+    </footer>
+  </main>
+
+  <script>
+    const mensagem = document.getElementById("mensagem");
+    const deslocamento = document.getElementById("deslocamento");
+    const operacao = document.getElementById("operacao");
+    const resultado = document.getElementById("resultado");
+
+    function cifraDeCesar(texto, deslocamento, descriptografar = false) {
+      const alfabeto = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      const passo = descriptografar
+        ? (26 - deslocamento) % 26
+        : deslocamento;
+
+      return texto.replace(/[a-z]/gi, letra => {
+        const indice = alfabeto.indexOf(letra.toUpperCase());
+        const novaLetra = alfabeto[(indice + passo) % 26];
+
+        return letra === letra.toUpperCase()
+          ? novaLetra
+          : novaLetra.toLowerCase();
+      });
+    }
+
+    function transformarMensagem() {
+      const texto = mensagem.value;
+      const valor = deslocamento.value.trim();
+
+      if (valor === "") {
+        resultado.textContent = "Informe um deslocamento entre 0 e 25.";
+        return;
+      }
+
+      const numero = Number(valor);
+
+      if (!Number.isInteger(numero) || numero < 0 || numero > 25) {
+        resultado.textContent =
+          "Erro: o deslocamento deve ser um número inteiro entre 0 e 25.";
+        return;
+      }
+
+      if (texto.length === 0) {
+        resultado.textContent = "Digite uma mensagem para continuar.";
+        return;
+      }
+
+      const descriptografar = operacao.value === "descriptografar";
+
+      resultado.textContent = cifraDeCesar(
+        texto,
+        numero,
+        descriptografar
+      );
+    }
+
+    document
+      .getElementById("executar")
+      .addEventListener("click", transformarMensagem);
+
+    document
+      .getElementById("limpar")
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Aprenda criptografia com a Cifra de César em uma aplicação interativa.">
+  <title>Criptografia | Cifra de César</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 24px;
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      line-height: 1.6;
+    }
+
+    main {
+      max-width: 850px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      padding: 24px 0;
+    }
+
+    header h1 {
+      color: #38bdf8;
+      margin-bottom: 8px;
+    }
+
+    .card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      color: #7dd3fc;
+      margin-top: 0;
+    }
+
+    .formula {
+      background: #0f172a;
+      border-radius: 8px;
+      padding: 14px;
+      text-align: center;
+      font-size: 1.15rem;
+      color: #facc15;
+      overflow-wrap: anywhere;
+    }
+
+    label {
+      display: block;
+      margin: 16px 0 8px;
+      font-weight: bold;
+    }
+
+    textarea,
+    input,
+    select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #475569;
+      border-radius: 8px;
+      background: #0f172a;
+      color: #f8fafc;
+      font: inherit;
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus,
+    button:focus-visible {
+      outline: 2px solid #38bdf8;
+      outline-offset: 2px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    button {
+      flex: 1;
+      min-width: 140px;
+      padding: 12px 18px;
+      border: none;
+      border-radius: 8px;
+      background: #0284c7;
+      color: white;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0369a1;
+    }
+
+    button.secondary {
+      background: #475569;
+    }
+
+    button.secondary:hover {
+      background: #64748b;
+    }
+
+    #resultado {
+      min-height: 70px;
+      overflow-wrap: anywhere;
+      white-space: pre-wrap;
+      color: #86efac;
+      font-size: 1.05rem;
+    }
+
+    .hint {
+      color: #94a3b8;
+      font-size: 0.9rem;
+    }
+
+    footer {
+      text-align: center;
+      color: #94a3b8;
+      padding: 12px;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 500px) {
+      body {
+        padding: 14px;
+      }
+
+      .card {
+        padding: 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <header>
+      <h1>🔐 Introdução à Criptografia</h1>
+      <p>Descubra como funciona a Cifra de César!</p>
+    </header>
+
+    <section class="card">
+      <h2>1. O que é criptografia?</h2>
+      <p>
+        Criptografia é uma técnica utilizada para transformar informações
+        legíveis em uma forma que dificulta sua compreensão por pessoas
+        não autorizadas. Ela é importante para proteger dados e comunicações.
+      </p>
+
+      <h2>2. Como funciona a Cifra de César?</h2>
+      <p>
+        A Cifra de César é um método clássico de substituição de letras.
+        Cada letra é deslocada uma quantidade fixa de posições no alfabeto.
+        Por exemplo, com deslocamento 3, a letra A se transforma em D,
+        B se transforma em E e X se transforma em A.
+      </p>
+
+      <div class="formula">
+        E(x) = (x + k) mod 26
+      </div>
+
+      <p>
+        Nessa fórmula, <strong>x</strong> representa a posição da letra
+        no alfabeto e <strong>k</strong> representa o deslocamento.
+        O operador módulo 26 faz com que o alfabeto recomece após a letra Z.
+      </p>
+
+      <p class="hint">
+        Atenção: a Cifra de César é um exemplo didático e não deve ser
+        utilizada para proteger informações confidenciais reais.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>3. Experimente a cifra</h2>
+      <p>
+        Digite uma mensagem, escolha o deslocamento e observe o resultado.
+        Você pode criptografar ou descriptografar o texto.
+      </p>
+
+      <label for="mensagem">Mensagem:</label>
+      <textarea
+        id="mensagem"
+        placeholder="Ex.: Olá, Mundo!"
+      >Olá, Mundo!</textarea>
+
+      <label for="deslocamento">Deslocamento (0 a 25):</label>
+      <input
+        id="deslocamento"
+        type="number"
+        min="0"
+        max="25"
+        step="1"
+        value="3"
+      >
+
+      <label for="operacao">Operação:</label>
+      <select id="operacao">
+        <option value="criptografar">Criptografar</option>
+        <option value="descriptografar">Descriptografar</option>
+      </select>
+
+      <div class="actions">
+        <button id="executar" type="button">Transformar mensagem</button>
+        <button id="limpar" class="secondary" type="button">Limpar</button>
+      </div>
+
+      <label for="resultado">Resultado:</label>
+      <div
+        id="resultado"
+        class="formula"
+        role="status"
+        aria-live="polite"
+      >O resultado aparecerá aqui.</div>
+
+      <button id="copiar" class="secondary" type="button"
+        style="width:100%; margin-top:12px;">
+        Copiar resultado
+      </button>
+
+      <p class="hint">
+        Letras maiúsculas e minúsculas são preservadas. Espaços, números,
+        acentos e sinais de pontuação não são deslocados.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>4. Desafio prático</h2>
+      <p>
+        Criptografe a palavra <strong>SEGURANCA</strong> usando deslocamento 3.
+        Depois, selecione a opção “Descriptografar” e confira se consegue
+        recuperar a mensagem original.
+      </p>
+      <p>
+        <strong>Questão:</strong> por que a Cifra de César não é considerada
+        segura para proteger senhas e dados bancários atualmente?
+      </p>
+    </section>
+
+    <footer>
+      Atividade prática de Segurança da Informação · Cifra de César
+    </footer>
+  </main>
+
+  <script>
+    const mensagem = document.getElementById("mensagem");
+    const deslocamento = document.getElementById("deslocamento");
+    const operacao = document.getElementById("operacao");
+    const resultado = document.getElementById("resultado");
+
+    function cifraDeCesar(texto, deslocamento, descriptografar = false) {
+      const alfabeto = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      const passo = descriptografar
+        ? (26 - deslocamento) % 26
+        : deslocamento;
+
+      return texto.replace(/[a-z]/gi, letra => {
+        const indice = alfabeto.indexOf(letra.toUpperCase());
+        const novaLetra = alfabeto[(indice + passo) % 26];
+
+        return letra === letra.toUpperCase()
+          ? novaLetra
+          : novaLetra.toLowerCase();
+      });
+    }
+
+    function transformarMensagem() {
+      const texto = mensagem.value;
+      const valor = deslocamento.value.trim();
+
+      if (valor === "") {
+        resultado.textContent = "Informe um deslocamento entre 0 e 25.";
+        return;
+      }
+
+      const numero = Number(valor);
+
+      if (!Number.isInteger(numero) || numero < 0 || numero > 25) {
+        resultado.textContent =
+          "Erro: o deslocamento deve ser um número inteiro entre 0 e 25.";
+        return;
+      }
+
+      if (texto.length === 0) {
+        resultado.textContent = "Digite uma mensagem para continuar.";
+        return;
+      }
+
+      const descriptografar = operacao.value === "descriptografar";
+
+      resultado.textContent = cifraDeCesar(
+        texto,
+        numero,
+        descriptografar
+      );
+    }
+
+    document
+      .getElementById("executar")
+      .addEventListener("click", transformarMensagem);
+
+    document
+      .getElementById("limpar")
+      .addEventListener("click", () => {
+        mensagem.value = "";
+        resultado.textContent = "O resultado aparecerá aqui.";
+        mensagem.focus();
+      });
+
+    document
+      .getElementById("copiar")
+      .addEventListener("click", async () => {
+        const texto = resultado.textContent;
+
+        if (
+          !texto ||
+          texto === "O resultado aparecerá aqui." ||
+          texto.startsWith("Erro:") ||
+          texto.startsWith("Informe ") ||
+          texto.startsWith("Digite ")
+        ) {
+          resultado.textContent = "Gere um resultado válido antes de copiar.";
+          return;
+        }
+
+        try {
+          await navigator.clipboard.writeText(texto);
+          resultado.textContent = texto + "\n\nResultado copiado!";
+        } catch {
+          resultado.textContent =
+            texto + "\n\nNão foi possível copiar automaticamente.";
+        }
+      });
+
+    mensagem.addEventListener("input", transformarMensagem);
+    deslocamento.addEventListener("input", transformarMensagem);
+    operacao.addEventListener("change", transformarMensagem);
+
+    transformarMensagem();
+  </script>
+</body>
+</html>
+
+      .addEventListener("click", () => {
+        mensagem.value = "";
+        resultado.textContent = "O resultado aparecerá aqui.";
+        mensagem.focus();
+      });
+
+    document
+      .getElementById("copiar")
+      .addEventListener("click", async () => {
+        const texto = resultado.textContent;
+
+        if (
+          !texto ||
+          texto === "O resultado aparecerá aqui." ||
+          texto.startsWith("Erro:") ||
+          texto.startsWith("Informe ") ||
+          texto.startsWith("Digite ")
+        ) {
+          resultado.textContent = "Gere um resultado válido antes de copiar.";
+          return;
+        }
+
+        try {
+          await navigator.clipboard.writeText(texto);
+          resultado.textContent = texto + "\n\nResultado copiado!";
+        } catch {
+          resultado.textContent =
+            texto + "\n\nNão foi possível copiar automaticamente.";
+        }
+      });
+
+    mensagem.addEventListener("input", transformarMensagem);
+    deslocamento.addEventListener("input", transformarMensagem);
+    operacao.addEventListener("change", transformarMensagem);
+
+    transformarMensagem();
+  </script>
+</body>
+</html>
